@@ -5,7 +5,7 @@
     "tonyfettes/encoding": "0.3.0"
   },
   "readme": "README.md",
-  "repository": "https://github.com/illusory0x0/clang.mbt",
+  "repository": "https://github.com/moonbit-community/clang.mbt",
   "license": "Apache-2.0",
   "keywords": ["native", "clang"],
   "description": "clang-c native bindings",
