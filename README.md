@@ -51,5 +51,5 @@ you can install `tonyfettes/encoding` to decode `UTF8` to `UTF16-LE`.
 
 [libclang implementation](https://github.com/llvm/llvm-project/tree/main/clang/tools/libclang)
 
-使用 Clang 工具自由的支配 C++ 代码吧 - YKIKO的文章 - 知乎
+使用 Clang 工具自由的支配 C++ 代码吧 - YKIKO 的文章 - 知乎
 https://zhuanlan.zhihu.com/p/669360731
