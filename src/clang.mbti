@@ -1,0 +1,214 @@
+package "illusory0x0/clang"
+
+// Values
+
+// Types and methods
+pub(all) enum AvailabilityKind {
+  Available
+  Deprecated
+  NotAvailable
+  NotAccessible
+}
+impl Eq for AvailabilityKind
+impl Show for AvailabilityKind
+
+pub(all) enum CXX_AccessSpecifier {
+  InvalidAccessSpecifier
+  Public
+  Protected
+  Private
+}
+impl Eq for CXX_AccessSpecifier
+impl Show for CXX_AccessSpecifier
+
+pub(all) enum CallingConv {
+  Default
+  C
+  X86StdCall
+  X86FastCall
+  X86ThisCall
+  X86Pascal
+  AAPCS
+  AAPCS_VFP
+  X86RegCall
+  IntelOclBicc
+  X86_64Win64
+  X86_64SysV
+  X86VectorCall
+  Swift
+  PreserveMost
+  PreserveAll
+  AArch64VectorCall
+  SwiftAsync
+  AArch64SVEPCS
+  M68kRTD
+  Invalid
+  CXCallingConv_Unexposed
+}
+impl Eq for CallingConv
+impl Show for CallingConv
+
+type Cursor
+impl Cursor {
+  availability(Self) -> LinkageKind
+  canonical(Self) -> Self
+  cxx_access_specifier(Self) -> CXX_AccessSpecifier
+  display_name(Self) -> Bytes
+  enum_constant_decl_unsigned_value(Self) -> UInt64
+  enum_constant_decl_value(Self) -> Int64
+  enum_decl_integer_type(Self) -> Type
+  extent(Self) -> SourceRange
+  is_function_inlined(Self) -> Bool
+  is_macro_builtin(Self) -> Bool
+  is_macro_function_like(Self) -> Bool
+  is_null(Self) -> Bool
+  kind(Self) -> Int
+  kind_spelling(Int) -> Bytes
+  language(Self) -> LanguageKind
+  lexical_parent(Self) -> Self
+  linkage(Self) -> LinkageKind
+  null() -> Self
+  overloaded_decls(Self, Int) -> Self
+  overloaded_decls_num(Self) -> Int
+  semantic_parent(Self) -> Self
+  source_location(Self) -> SourceLocation
+  spelling(Self) -> Bytes
+  storage_class(Self) -> StorageClass
+  type_(Self) -> Type
+  typedef_decl_underlying_type(Self) -> Type
+  visibility(Self) -> LinkageKind
+}
+impl Eq for Cursor
+
+pub(all) enum ErrorCode {
+  Success
+  Failure_
+  Crashed
+  InvalidArguments
+  ASTReadError
+}
+impl Eq for ErrorCode
+impl Show for ErrorCode
+
+type Index
+impl Index {
+  new(Bool, Bool) -> Self
+  parse(Self, Bytes, FixedArray[Bytes], TranslationUnit_Flags) -> TranslationUnit!ParseError
+}
+
+pub(all) enum LanguageKind {
+  Invalid
+  C
+  ObjC
+  CPlusPlus
+}
+impl Eq for LanguageKind
+impl Show for LanguageKind
+
+pub(all) enum LinkageKind {
+  Invalid
+  NoLinkage
+  Internal
+  UniqueExternal
+  External
+}
+impl Eq for LinkageKind
+impl Show for LinkageKind
+
+type ParseError
+impl Eq for ParseError
+impl Show for ParseError
+
+type SourceLocation
+impl SourceLocation {
+  null() -> Self
+}
+impl Eq for SourceLocation
+
+type SourceRange
+impl Eq for SourceRange
+
+type StorageClass
+impl Eq for StorageClass
+impl Show for StorageClass
+
+type TargetInfo
+impl TargetInfo {
+  pointer_width(Self) -> Int
+  triple(Self) -> Bytes
+}
+
+type Token
+impl Token {
+  spelling(Self) -> Bytes
+}
+
+type TranslationUnit
+impl TranslationUnit {
+  cursor(Self) -> Cursor
+  target_info(Self) -> TargetInfo
+  tokenize(Self, SourceRange) -> FixedArray[Token]
+}
+
+pub enum TranslationUnit_Flags {
+  None
+  DetailedPreprocessingRecord
+  Incomplete
+  PrecompiledPreamble
+  CacheCompletionResults
+  ForSerialization
+  CXXChainedPCH
+  SkipFunctionBodies
+  IncludeBriefCommentsInCodeCompletion
+  CreatePreambleOnFirstParse
+  KeepGoing
+  SingleFileParse
+  LimitSkipFunctionBodiesToPreamble
+  IncludeAttributedTypes
+  VisitImplicitAttributes
+  IgnoreNonErrorsFromIncludedFiles
+  RetainExcludedConditionalBlocks
+}
+impl BitOr for TranslationUnit_Flags
+impl Eq for TranslationUnit_Flags
+impl Show for TranslationUnit_Flags
+
+type Type
+impl Type {
+  address_space(Self) -> Int
+  argument(Self, Int) -> Self
+  arity(Self) -> Int
+  calling_conv(Self) -> CallingConv
+  canonical(Self) -> Self
+  is_const_qualified(Self) -> Bool
+  is_restrict_qualified(Self) -> Bool
+  is_volatile_qualified(Self) -> Bool
+  kind(Self) -> Int
+  kind_spelling(Int) -> Bytes
+  offsetof(Self, Bytes) -> Int64
+  pointee(Self) -> Self
+  result(Self) -> Self
+  sizeof(Self) -> Int64
+  spelling(Self) -> Bytes
+  type_declaration(Self) -> Cursor
+  typedef_name(Self) -> Byte
+  unqualified(Self) -> Self
+}
+impl Eq for Type
+
+pub(all) enum VisibilityKind {
+  Invalid
+  Hidden
+  Protected
+  Default
+}
+impl Eq for VisibilityKind
+impl Show for VisibilityKind
+
+// Type aliases
+pub typealias CursorKind = Int
+
+pub typealias TypeKind = Int
+
+// Traits
+
