@@ -49,35 +49,33 @@ impl Eq for CallingConv
 impl Show for CallingConv
 
 type Cursor
-impl Cursor {
-  availability(Self) -> LinkageKind
-  canonical(Self) -> Self
-  cxx_access_specifier(Self) -> CXX_AccessSpecifier
-  display_name(Self) -> Bytes
-  enum_constant_decl_unsigned_value(Self) -> UInt64
-  enum_constant_decl_value(Self) -> Int64
-  enum_decl_integer_type(Self) -> Type
-  extent(Self) -> SourceRange
-  is_function_inlined(Self) -> Bool
-  is_macro_builtin(Self) -> Bool
-  is_macro_function_like(Self) -> Bool
-  is_null(Self) -> Bool
-  kind(Self) -> Int
-  kind_spelling(Int) -> Bytes
-  language(Self) -> LanguageKind
-  lexical_parent(Self) -> Self
-  linkage(Self) -> LinkageKind
-  null() -> Self
-  overloaded_decls(Self, Int) -> Self
-  overloaded_decls_num(Self) -> Int
-  semantic_parent(Self) -> Self
-  source_location(Self) -> SourceLocation
-  spelling(Self) -> Bytes
-  storage_class(Self) -> StorageClass
-  type_(Self) -> Type
-  typedef_decl_underlying_type(Self) -> Type
-  visibility(Self) -> LinkageKind
-}
+fn Cursor::availability(Self) -> LinkageKind
+fn Cursor::canonical(Self) -> Self
+fn Cursor::cxx_access_specifier(Self) -> CXX_AccessSpecifier
+fn Cursor::display_name(Self) -> Bytes
+fn Cursor::enum_constant_decl_unsigned_value(Self) -> UInt64
+fn Cursor::enum_constant_decl_value(Self) -> Int64
+fn Cursor::enum_decl_integer_type(Self) -> Type
+fn Cursor::extent(Self) -> SourceRange
+fn Cursor::is_function_inlined(Self) -> Bool
+fn Cursor::is_macro_builtin(Self) -> Bool
+fn Cursor::is_macro_function_like(Self) -> Bool
+fn Cursor::is_null(Self) -> Bool
+fn Cursor::kind(Self) -> Int
+fn Cursor::kind_spelling(Int) -> Bytes
+fn Cursor::language(Self) -> LanguageKind
+fn Cursor::lexical_parent(Self) -> Self
+fn Cursor::linkage(Self) -> LinkageKind
+fn Cursor::null() -> Self
+fn Cursor::overloaded_decls(Self, Int) -> Self
+fn Cursor::overloaded_decls_num(Self) -> Int
+fn Cursor::semantic_parent(Self) -> Self
+fn Cursor::source_location(Self) -> SourceLocation
+fn Cursor::spelling(Self) -> Bytes
+fn Cursor::storage_class(Self) -> StorageClass
+fn Cursor::type_(Self) -> Type
+fn Cursor::typedef_decl_underlying_type(Self) -> Type
+fn Cursor::visibility(Self) -> LinkageKind
 impl Eq for Cursor
 
 pub(all) enum ErrorCode {
@@ -91,10 +89,8 @@ impl Eq for ErrorCode
 impl Show for ErrorCode
 
 type Index
-impl Index {
-  new(Bool, Bool) -> Self
-  parse(Self, Bytes, FixedArray[Bytes], TranslationUnit_Flags) -> TranslationUnit!ParseError
-}
+fn Index::new(Bool, Bool) -> Self
+fn Index::parse(Self, Bytes, FixedArray[Bytes], TranslationUnit_Flags) -> TranslationUnit raise ParseError
 
 pub(all) enum LanguageKind {
   Invalid
@@ -120,9 +116,7 @@ impl Eq for ParseError
 impl Show for ParseError
 
 type SourceLocation
-impl SourceLocation {
-  null() -> Self
-}
+fn SourceLocation::null() -> Self
 impl Eq for SourceLocation
 
 type SourceRange
@@ -133,22 +127,16 @@ impl Eq for StorageClass
 impl Show for StorageClass
 
 type TargetInfo
-impl TargetInfo {
-  pointer_width(Self) -> Int
-  triple(Self) -> Bytes
-}
+fn TargetInfo::pointer_width(Self) -> Int
+fn TargetInfo::triple(Self) -> Bytes
 
 type Token
-impl Token {
-  spelling(Self) -> Bytes
-}
+fn Token::spelling(Self) -> Bytes
 
 type TranslationUnit
-impl TranslationUnit {
-  cursor(Self) -> Cursor
-  target_info(Self) -> TargetInfo
-  tokenize(Self, SourceRange) -> FixedArray[Token]
-}
+fn TranslationUnit::cursor(Self) -> Cursor
+fn TranslationUnit::target_info(Self) -> TargetInfo
+fn TranslationUnit::tokenize(Self, SourceRange) -> FixedArray[Token]
 
 pub enum TranslationUnit_Flags {
   None
@@ -174,26 +162,24 @@ impl Eq for TranslationUnit_Flags
 impl Show for TranslationUnit_Flags
 
 type Type
-impl Type {
-  address_space(Self) -> Int
-  argument(Self, Int) -> Self
-  arity(Self) -> Int
-  calling_conv(Self) -> CallingConv
-  canonical(Self) -> Self
-  is_const_qualified(Self) -> Bool
-  is_restrict_qualified(Self) -> Bool
-  is_volatile_qualified(Self) -> Bool
-  kind(Self) -> Int
-  kind_spelling(Int) -> Bytes
-  offsetof(Self, Bytes) -> Int64
-  pointee(Self) -> Self
-  result(Self) -> Self
-  sizeof(Self) -> Int64
-  spelling(Self) -> Bytes
-  type_declaration(Self) -> Cursor
-  typedef_name(Self) -> Byte
-  unqualified(Self) -> Self
-}
+fn Type::address_space(Self) -> Int
+fn Type::argument(Self, Int) -> Self
+fn Type::arity(Self) -> Int
+fn Type::calling_conv(Self) -> CallingConv
+fn Type::canonical(Self) -> Self
+fn Type::is_const_qualified(Self) -> Bool
+fn Type::is_restrict_qualified(Self) -> Bool
+fn Type::is_volatile_qualified(Self) -> Bool
+fn Type::kind(Self) -> Int
+fn Type::kind_spelling(Int) -> Bytes
+fn Type::offsetof(Self, Bytes) -> Int64
+fn Type::pointee(Self) -> Self
+fn Type::result(Self) -> Self
+fn Type::sizeof(Self) -> Int64
+fn Type::spelling(Self) -> Bytes
+fn Type::type_declaration(Self) -> Cursor
+fn Type::typedef_name(Self) -> Byte
+fn Type::unqualified(Self) -> Self
 impl Eq for Type
 
 pub(all) enum VisibilityKind {
@@ -206,9 +192,9 @@ impl Eq for VisibilityKind
 impl Show for VisibilityKind
 
 // Type aliases
-pub typealias CursorKind = Int
+pub typealias Int as CursorKind
 
-pub typealias TypeKind = Int
+pub typealias Int as TypeKind
 
 // Traits
 

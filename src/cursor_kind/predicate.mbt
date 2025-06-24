@@ -1,4 +1,5 @@
 // The following function can be implementeded using pattern match
+
 ///|
 pub extern "c" fn is_declaration(x : CursorKind) -> Bool = "clang_isDeclaration"
 

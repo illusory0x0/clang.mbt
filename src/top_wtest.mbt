@@ -7,8 +7,8 @@ typealias @encoding.Encoding
 ///|
 impl Show for Type with output(self, logger) {
   try {
-    let s = self.spelling() |> decode!(encoding=UTF8)
-    let k = Type::kind_spelling(self.kind()) |> decode!(encoding=UTF8)
+    let s = self.spelling() |> decode(encoding=UTF8)
+    let k = Type::kind_spelling(self.kind()) |> decode(encoding=UTF8)
     logger.write_string("{ spelling : \{s}, kind: \{k} }")
   } catch {
     e => logger.write_object(e)
@@ -18,8 +18,8 @@ impl Show for Type with output(self, logger) {
 ///|
 impl Show for Cursor with output(self, logger) {
   try {
-    let s = self.spelling() |> decode!(encoding=UTF8)
-    let k = Cursor::kind_spelling(self.kind()) |> decode!(encoding=UTF8)
+    let s = self.spelling() |> decode(encoding=UTF8)
+    let k = Cursor::kind_spelling(self.kind()) |> decode(encoding=UTF8)
     logger.write_string("{ spelling : \{s}, kind: \{k} }")
   } catch {
     e => logger.write_object(e)
@@ -29,28 +29,25 @@ impl Show for Cursor with output(self, logger) {
 ///|
 test "type decl" {
   let index = Index::new(false, false)
-  let tu = index.parse!(b"test/type_decl.c\x00", [], None)
+  let tu = index.parse(b"test/type_decl.c\x00", [], None)
   let csr = tu.cursor()
-  inspect!(
-    csr,
-    content="{ spelling : test/type_decl.c, kind: TranslationUnit }",
-  )
-  inspect!(
+  inspect(csr, content="{ spelling : test/type_decl.c, kind: TranslationUnit }")
+  inspect(
     csr.children(),
     content="[{ spelling : A, kind: StructDecl }, { spelling : AA, kind: TypedefDecl }, { spelling : x, kind: VarDecl }]",
   )
-  let x = csr.children().find_first(fn { x => x.spelling() == "x" }).unwrap()
-  inspect!(x, content="{ spelling : x, kind: VarDecl }")
-  inspect!(x.type_(), content="{ spelling : AA, kind: Elaborated }")
-  inspect!(
+  let x = csr.children().find_first(x => x.spelling() == "x").unwrap()
+  inspect(x, content="{ spelling : x, kind: VarDecl }")
+  inspect(x.type_(), content="{ spelling : AA, kind: Elaborated }")
+  inspect(
     x.type_().type_declaration(),
     content="{ spelling : AA, kind: TypedefDecl }",
   )
-  inspect!(
+  inspect(
     x.type_().type_declaration().type_(),
     content="{ spelling : AA, kind: Typedef }",
   )
-  inspect!(
+  inspect(
     x.type_().type_declaration().type_().desugar(),
     content="{ spelling : struct A *, kind: Pointer }",
   )
@@ -60,151 +57,152 @@ test "type decl" {
 test {
   let index = Index::new(false, false)
   try {
-    let tu = index.parse!(b"not_exists_file\x00", [], None)
+    let tu = index.parse(b"not_exists_file\x00", [], None)
 
   } catch {
-    e => inspect!(e, content="ParseError(ASTReadError)")
+    e => inspect(e, content="ParseError(ASTReadError)")
+  }
+}
+
+///|
+fn Bytes::to_utf16(x : Bytes) -> String {
+  decode(x, encoding=UTF8) catch {
+    _ => panic()
   }
 }
 
 ///|
 test "enum" {
   let index = Index::new(false, false)
-  let tu = index.parse!(b"test/enums.c\x00", [], None)
+  let tu = index.parse(b"test/enums.c\x00", [], None)
   let csr = tu.cursor()
   let x = csr.children().head().unwrap()
-  inspect!(x, content="{ spelling : ExitCode, kind: EnumDecl }")
+  inspect(x, content="{ spelling : ExitCode, kind: EnumDecl }")
   let enum_items = x
     .children()
-    .map(fn(x) {
-      (
-        (x.display_name() |> decode?(encoding=UTF8)).unwrap(),
-        x.enum_constant_decl_value(),
-      )
-    })
-  inspect!(
+    .map(fn(x) { (x.display_name().to_utf16(), x.enum_constant_decl_value()) })
+  inspect(
     enum_items,
     content=
       #|[("Success", 0), ("Failure", 255)]
     ,
   )
-  inspect!(csr, content="{ spelling : test/enums.c, kind: TranslationUnit }")
+  inspect(csr, content="{ spelling : test/enums.c, kind: TranslationUnit }")
 }
 
 ///|
 test "DetailedPreprocessingRecord" {
   let index = Index::new(false, false)
-  let tu = index.parse!(b"test/test.c\x00", [], DetailedPreprocessingRecord)
+  let tu = index.parse(b"test/test.c\x00", [], DetailedPreprocessingRecord)
   let csr = tu.cursor()
   let csr_loc = csr.source_location()
   let csr_rg = csr.extent()
-  inspect!(csr_loc == csr_loc, content="true")
-  inspect!(csr_rg == csr_rg, content="true")
-  inspect!(csr == csr, content="true")
-  inspect!(csr, content="{ spelling : test/test.c, kind: TranslationUnit }")
+  inspect(csr_loc == csr_loc, content="true")
+  inspect(csr_rg == csr_rg, content="true")
+  inspect(csr == csr, content="true")
+  inspect(csr, content="{ spelling : test/test.c, kind: TranslationUnit }")
   let ti = tu.target_info()
-  inspect!(ti.pointer_width(), content="64")
-  inspect!(ti.triple() |> decode!(encoding=UTF8), content="x86_64-pc-linux-gnu")
+  inspect(ti.pointer_width(), content="64")
+  inspect(ti.triple() |> decode(encoding=UTF8), content="x86_64-pc-linux-gnu")
   let csr_children = csr.children().collect()
   let x = csr_children[0]
   // Cursor predicate
-  inspect!(x.is_macro_builtin(), content="false")
-  inspect!(x.is_function_inlined(), content="false")
-  inspect!(x.is_null(), content="false")
-  inspect!(x.is_macro_function_like(), content="false")
-  inspect!(x.is_function_inlined(), content="false")
+  inspect(x.is_macro_builtin(), content="false")
+  inspect(x.is_function_inlined(), content="false")
+  inspect(x.is_null(), content="false")
+  inspect(x.is_macro_function_like(), content="false")
+  inspect(x.is_function_inlined(), content="false")
   // Cursor predicate end
-  inspect!(x.availability(), content="Invalid")
-  inspect!(
+  inspect(x.availability(), content="Invalid")
+  inspect(
     x.canonical(),
     content="{ spelling : __llvm__, kind: macro definition }",
   )
-  inspect!(x.display_name() |> decode!(encoding=UTF8), content="__llvm__")
-  let struct_idx = csr_children.search_by(fn {
-    c => c.kind() == @cursor_kind.StructDecl
-  })
+  inspect(x.display_name() |> decode(encoding=UTF8), content="__llvm__")
+  let struct_idx = csr_children.search_by(c => c.kind() ==
+    @cursor_kind.StructDecl)
   let st = csr_children[struct_idx.unwrap()]
-  inspect!(st, content="{ spelling : A, kind: StructDecl }")
+  inspect(st, content="{ spelling : A, kind: StructDecl }")
   let stty = st.type_()
-  inspect!(stty, content="{ spelling : struct A, kind: Record }")
-  inspect!(stty.address_space(), content="0")
-  inspect!(stty.canonical(), content="{ spelling : struct A, kind: Record }")
-  inspect!(stty.is_const_qualified(), content="false")
-  inspect!(stty.is_restrict_qualified(), content="false")
-  inspect!(stty.is_volatile_qualified(), content="false")
-  inspect!(stty.kind(), content="105")
-  inspect!(stty.sizeof(), content="136")
-  inspect!(stty.offsetof(b"x\x00"), content="0")
-  inspect!(stty.offsetof(b"y\x00"), content="32")
-  inspect!(stty.offsetof(b"arr\x00"), content="64")
-  inspect!(stty.offsetof(b"undefined_field\x00"), content="-5")
-  let foo_idx = csr_children.search_by(fn { c => c.spelling() == b"foo" })
+  inspect(stty, content="{ spelling : struct A, kind: Record }")
+  inspect(stty.address_space(), content="0")
+  inspect(stty.canonical(), content="{ spelling : struct A, kind: Record }")
+  inspect(stty.is_const_qualified(), content="false")
+  inspect(stty.is_restrict_qualified(), content="false")
+  inspect(stty.is_volatile_qualified(), content="false")
+  inspect(stty.kind(), content="105")
+  inspect(stty.sizeof(), content="136")
+  inspect(stty.offsetof(b"x\x00"), content="0")
+  inspect(stty.offsetof(b"y\x00"), content="32")
+  inspect(stty.offsetof(b"arr\x00"), content="64")
+  inspect(stty.offsetof(b"undefined_field\x00"), content="-5")
+  let foo_idx = csr_children.search_by(c => c.spelling() == b"foo")
   let foo = csr_children[foo_idx.unwrap()]
   let foo_ty = foo.type_()
-  inspect!(
+  inspect(
     foo_ty,
     content="{ spelling : void (int, double, struct A), kind: FunctionProto }",
   )
-  inspect!(foo_ty == foo_ty, content="true")
-  inspect!(foo_ty.calling_conv(), content="C")
-  inspect!(foo_ty.result(), content="{ spelling : void, kind: Void }")
-  inspect!(foo_ty.arity(), content="3")
-  inspect!(foo.linkage(), content="External")
-  inspect!(foo.language(), content="C")
-  inspect!(foo.visibility(), content="UniqueExternal")
-  inspect!(foo.availability(), content="Invalid")
+  inspect(foo_ty == foo_ty, content="true")
+  inspect(foo_ty.calling_conv(), content="C")
+  inspect(foo_ty.result(), content="{ spelling : void, kind: Void }")
+  inspect(foo_ty.arity(), content="3")
+  inspect(foo.linkage(), content="External")
+  inspect(foo.language(), content="C")
+  inspect(foo.visibility(), content="UniqueExternal")
+  inspect(foo.availability(), content="Invalid")
   let foo_ty_arity = foo_ty.arity()
   let args = []
   for i in 0..<foo_ty_arity {
     args.push(foo_ty.argument(i))
   }
-  inspect!(
-    args.map(fn { x => x.to_string() }),
+  inspect(
+    args.map(Type::to_string),
     content=
       #|["{ spelling : int, kind: Int }", "{ spelling : double, kind: Double }", "{ spelling : struct A, kind: Elaborated }"]
     ,
   )
-  let happy_idx = csr_children.search_by(fn { c => c.spelling() == b"happy" })
+  let happy_idx = csr_children.search_by(c => c.spelling() == b"happy")
   let happy = csr_children[happy_idx.unwrap()]
-  inspect!(happy, content="{ spelling : happy, kind: TypedefDecl }")
+  inspect(happy, content="{ spelling : happy, kind: TypedefDecl }")
   let happy_ty = happy.type_()
-  inspect!(happy, content="{ spelling : happy, kind: TypedefDecl }")
+  inspect(happy, content="{ spelling : happy, kind: TypedefDecl }")
   let happy_ty_uy = happy_ty.desugar()
-  inspect!(
+  inspect(
     happy_ty_uy,
     content="{ spelling : const volatile struct A *restrict, kind: Pointer }",
   )
-  inspect!(happy_ty_uy.kind(), content="101")
-  inspect!(happy_ty.kind(), content="107")
-  inspect!(
+  inspect(happy_ty_uy.kind(), content="101")
+  inspect(happy_ty.kind(), content="107")
+  inspect(
     happy_ty_uy.pointee(),
     content="{ spelling : const volatile struct A, kind: Record }",
   )
-  inspect!(happy_ty_uy.pointee().is_const_qualified(), content="true")
-  inspect!(happy_ty_uy.pointee().is_volatile_qualified(), content="true")
-  inspect!(happy_ty_uy.is_restrict_qualified(), content="true")
-  inspect!(
+  inspect(happy_ty_uy.pointee().is_const_qualified(), content="true")
+  inspect(happy_ty_uy.pointee().is_volatile_qualified(), content="true")
+  inspect(happy_ty_uy.is_restrict_qualified(), content="true")
+  inspect(
     happy.typedef_decl_underlying_type(),
     content="{ spelling : const volatile struct A *restrict, kind: Pointer }",
   )
-  inspect!(happy.display_name() |> decode!(encoding=UTF8), content="happy")
+  inspect(happy.display_name() |> decode(encoding=UTF8), content="happy")
 }
 
 ///|
 test {
   let index = Index::new(false, false)
-  let tu = index.parse!(b"test/test.cxx\x00", [], None)
+  let tu = index.parse(b"test/test.cxx\x00", [], None)
   let csr = tu.cursor()
-  inspect!(csr, content="{ spelling : test/test.cxx, kind: TranslationUnit }")
+  inspect(csr, content="{ spelling : test/test.cxx, kind: TranslationUnit }")
   let toplvls = csr.children().collect()
   let foo = toplvls[0]
-  inspect!(foo, content="{ spelling : swap, kind: FunctionTemplate }")
+  inspect(foo, content="{ spelling : swap, kind: FunctionTemplate }")
   let methods = foo.children().collect()
-  inspect!(methods.map(Cursor::storage_class), content="[Invalid, None, None]")
+  inspect(methods.map(Cursor::storage_class), content="[Invalid, None, None]")
   let bar = toplvls[3]
-  inspect!(bar, content="{ spelling : reverse, kind: FunctionTemplate }")
+  inspect(bar, content="{ spelling : reverse, kind: FunctionTemplate }")
   let bar_expr = bar.children().head().unwrap().children().collect()
-  inspect!(bar_expr.length(), content="0")
+  inspect(bar_expr.length(), content="0")
   let xs = []
   fn dfs(cur : Cursor) -> Unit {
     if cur.kind() == @cursor_kind.OverloadedDeclRef {
@@ -216,14 +214,14 @@ test {
   }
 
   dfs(csr)
-  inspect!(xs, content="[{ spelling : swap, kind: OverloadedDeclRef }]")
+  inspect(xs, content="[{ spelling : swap, kind: OverloadedDeclRef }]")
   let oldr = xs[0]
-  inspect!(oldr.overloaded_decls_num(), content="2")
-  inspect!(
+  inspect(oldr.overloaded_decls_num(), content="2")
+  inspect(
     oldr.overloaded_decls(0),
     content="{ spelling : swap, kind: FunctionDecl }",
   )
-  inspect!(
+  inspect(
     oldr.overloaded_decls(1),
     content="{ spelling : swap, kind: FunctionTemplate }",
   )
@@ -232,73 +230,66 @@ test {
 ///|
 test "macro" {
   let index = Index::new(false, false)
-  let tu = index.parse!(b"test/macro.c\x00", [], DetailedPreprocessingRecord)
+  let tu = index.parse(b"test/macro.c\x00", [], DetailedPreprocessingRecord)
   let csr = tu.cursor()
-  inspect!(csr, content="{ spelling : test/macro.c, kind: TranslationUnit }")
-  let x = csr.children().find_first(fn { x => x.spelling() == "FOO" }).unwrap()
-  inspect!(x, content="{ spelling : FOO, kind: macro definition }")
+  inspect(csr, content="{ spelling : test/macro.c, kind: TranslationUnit }")
+  let x = csr.children().find_first(x => x.spelling() == "FOO").unwrap()
+  inspect(x, content="{ spelling : FOO, kind: macro definition }")
   let range = x.extent()
   let toks = tu.tokenize(range)
-  inspect!(
-    toks.map(fn { t => (Token::spelling(t) |> decode?(encoding=UTF8)).unwrap() }),
+  inspect(
+    toks.map(t => Token::spelling(t).to_utf16()),
     content=
       #|["FOO", "(", "{", "1", ",", "2", ",", "3", ",", "4", ",", "5", "}", ")"]
     ,
   )
   let bar = csr
     .children()
-    .find_first(fn {
-      x => x.spelling() == "Bar" && x.kind() == @cursor_kind.MacroDefinition
-    })
+    .find_first(x => x.spelling() == "Bar" &&
+      x.kind() == @cursor_kind.MacroDefinition)
     .unwrap()
-  inspect!(bar, content="{ spelling : Bar, kind: macro definition }")
+  inspect(bar, content="{ spelling : Bar, kind: macro definition }")
   let rg = bar.extent()
-  inspect!(bar.display_name() |> decode!(encoding=UTF8), content="Bar")
-  inspect!(bar.children(), content="[]")
+  inspect(bar.display_name() |> decode(encoding=UTF8), content="Bar")
+  inspect(bar.children(), content="[]")
   let toks = tu.tokenize(rg)
-  inspect!(
-    toks.map(fn { t => (Token::spelling(t) |> decode?(encoding=UTF8)).unwrap() }),
+  inspect(
+    toks.map(t => Token::spelling(t).to_utf16()),
     content=
       #|["Bar", "Bar"]
     ,
   )
-  let max = csr
-    .children()
-    .find_first(fn { x => x.spelling() == "max" })
-    .unwrap()
+  let max = csr.children().find_first(x => x.spelling() == "max").unwrap()
   let rg = max.extent()
-  inspect!(max.display_name() |> decode!(encoding=UTF8), content="max")
-  inspect!(max.children(), content="[]")
+  inspect(max.display_name() |> decode(encoding=UTF8), content="max")
+  inspect(max.children(), content="[]")
   let toks = tu.tokenize(rg)
-  inspect!(
-    toks.map(fn { t => (Token::spelling(t) |> decode?(encoding=UTF8)).unwrap() }),
+  inspect(
+    toks.map(t => Token::spelling(t).to_utf16()),
     content=
       #|["max", "(", "a", ",", "b", ")", "(", "a", ">", "b", "?", "a", ":", "b", ")"]
     ,
   )
-  inspect!(max, content="{ spelling : max, kind: macro definition }")
+  inspect(max, content="{ spelling : max, kind: macro definition }")
 }
 
 ///|
 test {
   let index = Index::new(false, false)
-  let tu = index.parse!(b"test/test.c\x00", [], DetailedPreprocessingRecord)
+  let tu = index.parse(b"test/test.c\x00", [], DetailedPreprocessingRecord)
   let csr = tu.cursor()
-  inspect!(csr, content="{ spelling : test/test.c, kind: TranslationUnit }")
+  inspect(csr, content="{ spelling : test/test.c, kind: TranslationUnit }")
   let sr = csr.extent()
   let toks = tu.tokenize(sr)
-  let tokss = toks
-    .map(fn { tok => (tok.spelling() |> decode?(encoding=UTF8)).unwrap() })
-    .iter()
-    .join(" ")
-  inspect!(toks.length(), content="50")
-  inspect!(
+  let tokss = toks.map(tok => tok.spelling().to_utf16()).iter().join(" ")
+  inspect(toks.length(), content="50")
+  inspect(
     tokss,
     content="struct A { int x ; int y ; char arr [ 128 ] ; } ; void foo ( int x , double y , struct A z ) { } # define id ( x ) ( x ) typedef struct A const volatile * restrict happy ;",
   )
   toks |> ignore
-  inspect!(
-    csr.children().map(fn { c => c.to_string() }).join("\n"),
+  inspect(
+    csr.children().map(c => c.to_string()).join("\n"),
     content=
       #|{ spelling : __llvm__, kind: macro definition }
       #|{ spelling : __clang__, kind: macro definition }

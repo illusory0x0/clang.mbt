@@ -2,7 +2,7 @@
 type Index
 
 ///|
-type! ParseError ErrorCode derive(Show, Eq)
+suberror ParseError ErrorCode derive(Show, Eq)
 
 ///|
 type TranslationUnit

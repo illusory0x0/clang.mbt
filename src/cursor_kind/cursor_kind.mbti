@@ -596,7 +596,7 @@ fn is_unexposed(Int) -> Bool
 // Types and methods
 
 // Type aliases
-pub typealias CursorKind = Int
+pub typealias Int as CursorKind
 
 // Traits
 
