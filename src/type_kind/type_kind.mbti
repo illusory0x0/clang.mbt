@@ -256,7 +256,7 @@ const WChar : Int = 15
 // Types and methods
 
 // Type aliases
-pub typealias TypeKind = Int
+pub typealias Int as TypeKind
 
 // Traits
 

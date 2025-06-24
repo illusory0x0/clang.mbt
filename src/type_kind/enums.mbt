@@ -1,5 +1,5 @@
 ///|
-pub typealias TypeKind = Int
+pub typealias Int as TypeKind
 
 ///|
 pub const Invalid : TypeKind = 0

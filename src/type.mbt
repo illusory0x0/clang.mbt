@@ -28,7 +28,7 @@ pub extern "c" fn Type::sizeof(self : Type) -> Int64 = "illusory0x0_clang_Type_s
 
 ///| 
 /// Return the offset of a field named S in a record of type T in **bits**
-pub extern "c" fn Type::offsetof(self : Type, member : Bytes) -> Int64 = "illusory0x0_clang_Type_offsetof"
+pub extern "c" fn Type::offsetof(self : Type, member_ : Bytes) -> Int64 = "illusory0x0_clang_Type_offsetof"
 
 ///|
 pub extern "c" fn Type::is_const_qualified(self : Type) -> Bool = "illusory0x0_clang_Type_is_const_qualified"

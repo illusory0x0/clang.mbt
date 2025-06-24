@@ -10,7 +10,7 @@ pub fn Index::parse(
   source_filename : Bytes,
   command_line_args : FixedArray[Bytes],
   option : TranslationUnit_Flags
-) -> TranslationUnit!ParseError {
+) -> TranslationUnit raise ParseError {
   let out_ec : Ref[ErrorCode] = Ref::new(Failure_)
   let res = self._parse(source_filename, command_line_args, option, out_ec)
   if out_ec.val != Success {
