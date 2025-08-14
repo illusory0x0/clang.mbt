@@ -25,11 +25,7 @@
     "token.mbt": ["native"]
   },
   "supported-targets": ["native"],
-  "warn-list": "-1-2-3-4-5-6-7-8-10-29",
+  "warn-list": "-29",
   "native-stub": ["stub.c"],
-  "import": [
-    "tonyfettes/encoding",
-    "illusory0x0/clang/type_kind",
-    "illusory0x0/clang/cursor_kind"
-  ]
+  "import": ["tonyfettes/encoding", "illusory0x0/clang/cursor_kind"]
 }

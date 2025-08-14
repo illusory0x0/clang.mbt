@@ -17,10 +17,10 @@ type TargetInfo
 type Type
 
 ///|
-pub typealias @type_kind.TypeKind
+pub typealias Int as TypeKind
 
 ///|
-pub typealias @cursor_kind.CursorKind
+pub typealias Int as CursorKind
 
 ///|
 type SourceLocation

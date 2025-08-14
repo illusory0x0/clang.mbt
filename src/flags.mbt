@@ -21,3 +21,27 @@ pub enum TranslationUnit_Flags {
 
 ///|
 pub impl BitOr for TranslationUnit_Flags with lor(self, other) = "%i32_lor"
+
+///|
+// Dummy function to acknowledge all flag variants are part of the API
+fn _all_flags_available() -> Array[TranslationUnit_Flags] {
+  [
+    None,
+    DetailedPreprocessingRecord,
+    Incomplete,
+    PrecompiledPreamble,
+    CacheCompletionResults,
+    ForSerialization,
+    CXXChainedPCH,
+    SkipFunctionBodies,
+    IncludeBriefCommentsInCodeCompletion,
+    CreatePreambleOnFirstParse,
+    KeepGoing,
+    SingleFileParse,
+    LimitSkipFunctionBodiesToPreamble,
+    IncludeAttributedTypes,
+    VisitImplicitAttributes,
+    IgnoreNonErrorsFromIncludedFiles,
+    RetainExcludedConditionalBlocks,
+  ]
+}

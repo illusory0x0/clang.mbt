@@ -2,9 +2,6 @@
 fnalias @encoding.decode
 
 ///|
-typealias @encoding.Encoding
-
-///|
 impl Show for Type with output(self, logger) {
   try {
     let s = self.spelling() |> decode(encoding=UTF8)
@@ -57,7 +54,7 @@ test "type decl" {
 test {
   let index = Index::new(false, false)
   try {
-    let tu = index.parse(b"not_exists_file\x00", [], None)
+    let _tu = index.parse(b"not_exists_file\x00", [], None)
 
   } catch {
     e => inspect(e, content="ParseError(ASTReadError)")
