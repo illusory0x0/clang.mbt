@@ -1,6 +1,12 @@
+// Generated using `moon info`, DON'T EDIT IT
 package "illusory0x0/clang"
 
 // Values
+
+// Errors
+type ParseError
+impl Eq for ParseError
+impl Show for ParseError
 
 // Types and methods
 pub(all) enum AvailabilityKind {
@@ -110,10 +116,6 @@ pub(all) enum LinkageKind {
 }
 impl Eq for LinkageKind
 impl Show for LinkageKind
-
-type ParseError
-impl Eq for ParseError
-impl Show for ParseError
 
 type SourceLocation
 fn SourceLocation::null() -> Self
