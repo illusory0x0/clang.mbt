@@ -36,7 +36,7 @@ pub extern "c" fn Cursor::enum_constant_decl_value(self : Cursor) -> Int64 = "il
 
 ///|
 pub extern "c" fn Cursor::enum_constant_decl_unsigned_value(
-  self : Cursor
+  self : Cursor,
 ) -> UInt64 = "illusory0x0_clang_Cursor_enum_constant_decl_unsigned_value"
 
 ///|
@@ -72,7 +72,7 @@ pub extern "c" fn Cursor::visibility(self : Cursor) -> LinkageKind = "illusory0x
 
 ///|
 pub extern "c" fn Cursor::cxx_access_specifier(
-  self : Cursor
+  self : Cursor,
 ) -> CXX_AccessSpecifier = "illusory0x0_clang_cursor_cxx_access_specifier"
 
 ///|
@@ -84,7 +84,7 @@ pub extern "c" fn Cursor::overloaded_decls_num(self : Cursor) -> Int = "illusory
 ///|
 pub extern "c" fn Cursor::overloaded_decls(
   self : Cursor,
-  index : Int
+  index : Int,
 ) -> Cursor = "illusory0x0_clang_Cursor_overloaded_decls"
 
 ///|
