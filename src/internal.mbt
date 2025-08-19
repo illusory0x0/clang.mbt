@@ -4,13 +4,13 @@ extern "c" fn Index::_parse(
   source_filename : Bytes,
   command_line_args : FixedArray[Bytes],
   option : TranslationUnit_Flags,
-  out_ec : Ref[ErrorCode]
+  out_ec : Ref[ErrorCode],
 ) -> TranslationUnit = "illusory0x0_clang_Index_parse"
 
 ///|
 extern "c" fn Cursor::_visit_children(
   self : Cursor,
-  f : (Cursor) -> IterResult
+  f : (Cursor) -> IterResult,
 ) -> IterResult = "illusory0x0_clang_Cursor_visit_children"
 
 ///|
@@ -22,11 +22,11 @@ extern "c" fn Cursor::_op_equal(self : Cursor, other : Cursor) -> Bool = "illuso
 ///|
 extern "c" fn SourceLocation::_op_equal(
   self : SourceLocation,
-  other : SourceLocation
+  other : SourceLocation,
 ) -> Bool = "illusory0x0_clang_SourceLocation_op_equal"
 
 ///|
 extern "c" fn SourceRange::_op_equal(
   self : SourceRange,
-  other : SourceRange
+  other : SourceRange,
 ) -> Bool = "illusory0x0_clang_SourceRange_op_equal"

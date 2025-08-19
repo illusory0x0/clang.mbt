@@ -2,9 +2,6 @@
 fnalias @encoding.decode
 
 ///|
-typealias @encoding.Encoding
-
-///|
 impl Show for Type with output(self, logger) {
   try {
     let s = self.spelling() |> decode(encoding=UTF8)
@@ -57,7 +54,7 @@ test "type decl" {
 test {
   let index = Index::new(false, false)
   try {
-    let tu = index.parse(b"not_exists_file\x00", [], None)
+    let _tu = index.parse(b"not_exists_file\x00", [], None)
 
   } catch {
     e => inspect(e, content="ParseError(ASTReadError)")
@@ -83,9 +80,9 @@ test "enum" {
     .map(fn(x) { (x.display_name().to_utf16(), x.enum_constant_decl_value()) })
   inspect(
     enum_items,
-    content=
+    content=(
       #|[("Success", 0), ("Failure", 255)]
-    ,
+    ),
   )
   inspect(csr, content="{ spelling : test/enums.c, kind: TranslationUnit }")
 }
@@ -158,9 +155,9 @@ test "DetailedPreprocessingRecord" {
   }
   inspect(
     args.map(Type::to_string),
-    content=
+    content=(
       #|["{ spelling : int, kind: Int }", "{ spelling : double, kind: Double }", "{ spelling : struct A, kind: Elaborated }"]
-    ,
+    ),
   )
   let happy_idx = csr_children.search_by(c => c.spelling() == b"happy")
   let happy = csr_children[happy_idx.unwrap()]
@@ -239,9 +236,9 @@ test "macro" {
   let toks = tu.tokenize(range)
   inspect(
     toks.map(t => Token::spelling(t).to_utf16()),
-    content=
+    content=(
       #|["FOO", "(", "{", "1", ",", "2", ",", "3", ",", "4", ",", "5", "}", ")"]
-    ,
+    ),
   )
   let bar = csr
     .children()
@@ -255,9 +252,9 @@ test "macro" {
   let toks = tu.tokenize(rg)
   inspect(
     toks.map(t => Token::spelling(t).to_utf16()),
-    content=
+    content=(
       #|["Bar", "Bar"]
-    ,
+    ),
   )
   let max = csr.children().find_first(x => x.spelling() == "max").unwrap()
   let rg = max.extent()
@@ -266,9 +263,9 @@ test "macro" {
   let toks = tu.tokenize(rg)
   inspect(
     toks.map(t => Token::spelling(t).to_utf16()),
-    content=
+    content=(
       #|["max", "(", "a", ",", "b", ")", "(", "a", ">", "b", "?", "a", ":", "b", ")"]
-    ,
+    ),
   )
   inspect(max, content="{ spelling : max, kind: macro definition }")
 }
@@ -290,7 +287,7 @@ test {
   toks |> ignore
   inspect(
     csr.children().map(c => c.to_string()).join("\n"),
-    content=
+    content=(
       #|{ spelling : __llvm__, kind: macro definition }
       #|{ spelling : __clang__, kind: macro definition }
       #|{ spelling : __clang_major__, kind: macro definition }
@@ -684,6 +681,6 @@ test {
       #|{ spelling : A, kind: StructDecl }
       #|{ spelling : foo, kind: FunctionDecl }
       #|{ spelling : happy, kind: TypedefDecl }
-    ,
+    ),
   )
 }

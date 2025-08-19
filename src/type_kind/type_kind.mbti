@@ -1,3 +1,4 @@
+// Generated using `moon info`, DON'T EDIT IT
 package "illusory0x0/clang/type_kind"
 
 // Values
@@ -252,6 +253,8 @@ const Vector : Int = 113
 const Void : Int = 2
 
 const WChar : Int = 15
+
+// Errors
 
 // Types and methods
 

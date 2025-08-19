@@ -3,11 +3,11 @@ pub extern "c" fn TranslationUnit::cursor(self : TranslationUnit) -> Cursor = "i
 
 ///|
 pub extern "c" fn TranslationUnit::target_info(
-  self : TranslationUnit
+  self : TranslationUnit,
 ) -> TargetInfo = "illusory0x0_clang_TranslationUnit_target_info"
 
 ///|
 pub extern "c" fn TranslationUnit::tokenize(
   self : TranslationUnit,
-  range : SourceRange
+  range : SourceRange,
 ) -> FixedArray[Token] = "illusory0x0_clang_TranslationUnit_tokenize"

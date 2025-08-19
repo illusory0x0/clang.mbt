@@ -9,5 +9,6 @@
   "license": "Apache-2.0",
   "keywords": ["native", "clang"],
   "description": "clang-c native bindings",
-  "source": "src"
+  "source": "src",
+  "preferred-target": "native"
 }

@@ -1,3 +1,4 @@
+// Generated using `moon info`, DON'T EDIT IT
 package "illusory0x0/clang/cursor_kind"
 
 // Values
@@ -592,6 +593,8 @@ fn is_statement(Int) -> Bool
 fn is_translationUnit(Int) -> Bool
 
 fn is_unexposed(Int) -> Bool
+
+// Errors
 
 // Types and methods
 
