@@ -86,7 +86,7 @@ impl Eq for Cursor
 
 pub(all) enum ErrorCode {
   Success
-  Failure_
+  Failure
   Crashed
   InvalidArguments
   ASTReadError
